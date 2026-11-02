@@ -159,12 +159,14 @@ form.addEventListener("submit", async event => {
       throw new Error(e.message || e.error || "Could not upload payment screenshot.");
     }
     message.textContent = "Saving your booking…";
-    const reference = await supabaseRequest("book_tour_slot_with_proof", {
-      p_full_name: fullName,
-      p_phone: phone,
-      p_session_id: sessionId,
-      p_payment_proof_path: proofPath
-    });
+ const address = document.getElementById("address").value.trim();
+const reference = await supabaseRequest("book_tour_slot_with_proof", {
+  p_full_name: fullName,
+  p_phone: phone,
+  p_session_id: sessionId,
+  p_payment_proof_path: proofPath,
+  p_address: address
+});
     message.innerHTML = `<div class="booking-success"><h3>🎉 Booking Successful!</h3><p>Your StepBeat Studio municipal tour reservation has been recorded.</p><p><strong>Booking Reference: ${String(reference)}</strong></p><p>Please save this reference and wait for payment verification.</p></div>`;
     form.reset();
     await loadSessions();
